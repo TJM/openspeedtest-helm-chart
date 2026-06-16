@@ -58,6 +58,27 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
+gateway:
+  # Render a gateway.networking.k8s.io/v1 HTTPRoute that attaches to an
+  # existing Gateway and points at this chart's Service. Disabled by default.
+  enabled: false
+  annotations: {}
+  # parentRefs binds the HTTPRoute to an existing Gateway. At least one is
+  # required when enabled. `namespace` and `sectionName` are optional.
+  parentRefs: []
+    # - name: my-gateway
+    #   namespace: gateway
+    #   sectionName: https
+  # hostnames restricts the route to specific hosts. When empty, the route
+  # matches every hostname the parent Gateway accepts.
+  hostnames: []
+    # - chart-example.local
+  # matches is optional; when empty the rule applies to all paths.
+  matches:
+    - path:
+        type: PathPrefix
+        value: /
+
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
